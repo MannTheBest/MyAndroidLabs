@@ -6,6 +6,10 @@ android {
     namespace = "algonquin.cst2335.mann0520"
     compileSdk = 34
 
+    buildFeatures {
+        viewBinding = true
+    }
+
     defaultConfig {
         applicationId = "algonquin.cst2335.mann0520"
         minSdk = 24
@@ -24,7 +28,10 @@ android {
                 "proguard-rules.pro"
             )
         }
+
     }
+
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
