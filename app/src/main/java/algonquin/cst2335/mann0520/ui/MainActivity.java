@@ -3,6 +3,7 @@ package algonquin.cst2335.mann0520.ui;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -45,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
 
         variableBinding.checkbox1.setOnCheckedChangeListener((buttonView, isChecked) -> {
 
-            if (model.isSelected.getValue()) {
+            if (Boolean.TRUE.equals(model.isSelected.getValue())) {
                 Toast.makeText(MainActivity.this, "Checkbox Checked", Toast.LENGTH_SHORT).show();
             } else {
                 Toast.makeText(MainActivity.this, "Checkbox Unchecked", Toast.LENGTH_SHORT).show();
@@ -56,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
 
         variableBinding.radio1.setOnCheckedChangeListener((buttonView, isChecked) -> {
 
-            if (model.isSelected.getValue()) {
+            if (Boolean.TRUE.equals(model.isSelected.getValue())) {
                 Toast.makeText(MainActivity.this, "Radio Checked", Toast.LENGTH_SHORT).show();
             } else {
                 Toast.makeText(MainActivity.this, "Radio Unchecked", Toast.LENGTH_SHORT).show();
@@ -66,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
         });
         variableBinding.switch1.setOnCheckedChangeListener((buttonView, isChecked) -> {
 
-            if (model.isSelected.getValue()) {
+            if (Boolean.TRUE.equals(model.isSelected.getValue())) {
                 Toast.makeText(MainActivity.this, "Switch Checked", Toast.LENGTH_SHORT).show();
             } else {
                 Toast.makeText(MainActivity.this, "Switch Unchecked", Toast.LENGTH_SHORT).show();
@@ -96,12 +97,11 @@ public class MainActivity extends AppCompatActivity {
 
 
         button.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("SetTextI18n")
             public void onClick(View v) {
-                String editString = variableBinding.textview.getText().toString();
+                String editString = variableBinding.myedittext.getText().toString();
                 variableBinding.textview.setText( "Your edit text has: " + editString);
             }
-
-
         });
 
 
