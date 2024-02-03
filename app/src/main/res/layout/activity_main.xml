@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".ui.MainActivity">
 
     <TextView
         android:id="@+id/textview"
@@ -29,12 +29,44 @@
         app:layout_constraintStart_toStartOf="parent">
 
     </Button>
-    
+
+    <!-- Switch -->
+
+    <!-- RadioButton -->
+    <CheckBox
+        android:id="@+id/checkBoxCoffee"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/checkbox_message"
+        tools:layout_editor_absoluteX="48dp"
+        tools:layout_editor_absoluteY="16dp" />
+
+    <Switch
+        android:id="@+id/switchCoffee"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/switch_message"
+        tools:layout_editor_absoluteX="71dp"
+        tools:layout_editor_absoluteY="119dp" />
+
+
+    <RadioButton
+        android:id="@+id/radioButtonCoffee"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/radio_message"
+        tools:layout_editor_absoluteX="80dp"
+        tools:layout_editor_absoluteY="71dp" />
+
     <EditText
         android:id="@+id/myedittext"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/editmessage"
+        android:layout_marginBottom="416dp"
         android:hint="@string/hinttext"
-        />
+        android:text="@string/editmessage"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
