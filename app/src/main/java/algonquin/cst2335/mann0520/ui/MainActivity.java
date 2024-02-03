@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import algonquin.cst2335.mann0520.R;
 import algonquin.cst2335.mann0520.data.MainViewModel;
@@ -27,23 +28,82 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         model = new ViewModelProvider(this).get(MainViewModel.class);
-//        model.editString
 
-        TextView mytext = findViewById(R.id.textview);
+        TextView mytext = variableBinding.textview;
 
         Button button = variableBinding.button;
 
-        EditText myedit = findViewById(R.id.myedittext);
+        EditText myedit = variableBinding.myedittext;
 
 
-        button.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                String editString = myedit.getText().toString();
-                mytext.setText( "Your edit text has: " + editString);
+        model.isSelected.observe(this,selected->{
+            variableBinding.checkbox1.setChecked(selected);
+            variableBinding.radio1.setChecked(selected);
+            variableBinding.switch1.setChecked(selected);
+        });
+
+
+        variableBinding.checkbox1.setOnCheckedChangeListener((buttonView, isChecked) -> {
+
+            if (model.isSelected.getValue()) {
+                Toast.makeText(MainActivity.this, "Checkbox Checked", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(MainActivity.this, "Checkbox Unchecked", Toast.LENGTH_SHORT).show();
             }
 
 
         });
+
+        variableBinding.radio1.setOnCheckedChangeListener((buttonView, isChecked) -> {
+
+            if (model.isSelected.getValue()) {
+                Toast.makeText(MainActivity.this, "Radio Checked", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(MainActivity.this, "Radio Unchecked", Toast.LENGTH_SHORT).show();
+            }
+
+
+        });
+        variableBinding.switch1.setOnCheckedChangeListener((buttonView, isChecked) -> {
+
+            if (model.isSelected.getValue()) {
+                Toast.makeText(MainActivity.this, "Switch Checked", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(MainActivity.this, "Switch Unchecked", Toast.LENGTH_SHORT).show();
+            }
+
+        });
+
+
+        variableBinding.aclogo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                variableBinding.myedittext.setText("Algonquin");
+            }
+        });
+
+        variableBinding.imageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(MainActivity.this, "The width = " + variableBinding.imageButton.getWidth() +
+                        "and height = " + variableBinding.imageButton.getHeight(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
+
+
+
+
+        button.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                String editString = variableBinding.textview.getText().toString();
+                variableBinding.textview.setText( "Your edit text has: " + editString);
+            }
+
+
+        });
+
 
     }
 

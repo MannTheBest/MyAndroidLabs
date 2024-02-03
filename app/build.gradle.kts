@@ -6,10 +6,6 @@ android {
     namespace = "algonquin.cst2335.mann0520"
     compileSdk = 34
 
-    buildFeatures {
-        viewBinding = true
-    }
-
     defaultConfig {
         applicationId = "algonquin.cst2335.mann0520"
         minSdk = 24
@@ -19,6 +15,11 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
+
+    buildFeatures {
+        viewBinding = true
+    }
+
 
     buildTypes {
         release {
