@@ -26,7 +26,6 @@ public class MainActivity extends AppCompatActivity {
 
         variableBinding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(variableBinding.getRoot());
-        setContentView(R.layout.activity_main);
 
         model = new ViewModelProvider(this).get(MainViewModel.class);
 
@@ -36,12 +35,20 @@ public class MainActivity extends AppCompatActivity {
 
         EditText myedit = variableBinding.myedittext;
 
+        button.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("SetTextI18n")
+            public void onClick(View v) {
+                String editString = variableBinding.myedittext.getText().toString();
+                variableBinding.textview.setText( "Your edit text has: " + editString);
+            }
+        });
 
         model.isSelected.observe(this,selected->{
             variableBinding.checkbox1.setChecked(selected);
             variableBinding.radio1.setChecked(selected);
             variableBinding.switch1.setChecked(selected);
         });
+
 
 
         variableBinding.checkbox1.setOnCheckedChangeListener((buttonView, isChecked) -> {
@@ -96,13 +103,6 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-        button.setOnClickListener(new View.OnClickListener() {
-            @SuppressLint("SetTextI18n")
-            public void onClick(View v) {
-                String editString = variableBinding.myedittext.getText().toString();
-                variableBinding.textview.setText( "Your edit text has: " + editString);
-            }
-        });
 
 
     }
