@@ -3,4 +3,8 @@
     <string name="app_name">Mann\'s Android Labs</string>
     <string name="hello_message">Hola World!</string>
     <string name="button_message">Yo Es un Button</string>
+    <string name="spin_message">Spin flag</string>
+    <string name="button1">Button 1</string>
+    <string name="button2">Button 2</string>
+    <string name="button3">Button 3</string>
 </resources>
