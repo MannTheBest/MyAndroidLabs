@@ -4,7 +4,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -20,83 +22,66 @@ public class MainActivity extends AppCompatActivity {
     private ActivityMainBinding variableBinding;
 
     private MainViewModel model;
+
+    private static String TAG = "MainActivity";
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        Log.w( TAG, "In onDestroy() - The application has been forced to shut down" );
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        Log.w( TAG, "In onPause() - The application has suspended and currently paused." );
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+
+        Log.w( TAG, "In onStop() - The application has disappeared and stop working." );
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Log.w( TAG, "In onStart() - The application is now visible on screen" );
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        Log.w( TAG, "In onResume() - The application is now responding to user input" );
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        Log.w( TAG, "In onCreate() - Loading Widgets" );
 
         variableBinding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(variableBinding.getRoot());
 
         model = new ViewModelProvider(this).get(MainViewModel.class);
 
-        TextView mytext = variableBinding.textview;
+        Button btn1 = variableBinding.button;
 
-        Button button = variableBinding.button;
+        btn1.setOnClickListener(v -> {
 
-        EditText myedit = variableBinding.myedittext;
+            Intent nextPage = new Intent( MainActivity.this, SecondActivity.class);
 
-        button.setOnClickListener(new View.OnClickListener() {
-            @SuppressLint("SetTextI18n")
-            public void onClick(View v) {
-                String editString = variableBinding.myedittext.getText().toString();
-                variableBinding.textview.setText( "Your edit text has: " + editString);
-            }
-        });
-
-        model.isSelected.observe(this,selected->{
-            variableBinding.checkbox1.setChecked(selected);
-            variableBinding.radio1.setChecked(selected);
-            variableBinding.switch1.setChecked(selected);
-        });
-
-
-
-        variableBinding.checkbox1.setOnCheckedChangeListener((buttonView, isChecked) -> {
-
-            if (Boolean.TRUE.equals(model.isSelected.getValue())) {
-                Toast.makeText(MainActivity.this, "Checkbox Checked", Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(MainActivity.this, "Checkbox Unchecked", Toast.LENGTH_SHORT).show();
-            }
-
-
-        });
-
-        variableBinding.radio1.setOnCheckedChangeListener((buttonView, isChecked) -> {
-
-            if (Boolean.TRUE.equals(model.isSelected.getValue())) {
-                Toast.makeText(MainActivity.this, "Radio Checked", Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(MainActivity.this, "Radio Unchecked", Toast.LENGTH_SHORT).show();
-            }
-
-
-        });
-        variableBinding.switch1.setOnCheckedChangeListener((buttonView, isChecked) -> {
-
-            if (Boolean.TRUE.equals(model.isSelected.getValue())) {
-                Toast.makeText(MainActivity.this, "Switch Checked", Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(MainActivity.this, "Switch Unchecked", Toast.LENGTH_SHORT).show();
-            }
+            nextPage.putExtra( "EmailAddress", variableBinding.edittext.getText().toString() );
+            startActivity(nextPage);
 
         });
 
 
-        variableBinding.aclogo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                variableBinding.myedittext.setText("Algonquin");
-            }
-        });
-
-        variableBinding.imageButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(MainActivity.this, "The width = " + variableBinding.imageButton.getWidth() +
-                        "and height = " + variableBinding.imageButton.getHeight(), Toast.LENGTH_SHORT).show();
-            }
-        });
 
 
 
