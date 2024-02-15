@@ -4,7 +4,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -68,18 +70,30 @@ public class MainActivity extends AppCompatActivity {
         variableBinding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(variableBinding.getRoot());
 
+        SharedPreferences prefs = getSharedPreferences("MyData", Context.MODE_PRIVATE);
+        String emailAddress = prefs.getString("LoginName", "");
+
+        variableBinding.edittext.setText(emailAddress);
+
+        SharedPreferences.Editor editor = prefs.edit();
+
+
         model = new ViewModelProvider(this).get(MainViewModel.class);
 
         Button btn1 = variableBinding.button;
+
 
         btn1.setOnClickListener(v -> {
 
             Intent nextPage = new Intent( MainActivity.this, SecondActivity.class);
 
             nextPage.putExtra( "EmailAddress", variableBinding.edittext.getText().toString() );
+            editor.putString("LoginName", variableBinding.edittext.getText().toString());
+            editor.apply();
             startActivity(nextPage);
 
         });
+
 
 
 
