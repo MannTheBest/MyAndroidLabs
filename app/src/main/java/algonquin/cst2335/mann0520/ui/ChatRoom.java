@@ -41,6 +41,7 @@ public class ChatRoom extends AppCompatActivity {
         setContentView(binding.getRoot());
 
 
+        chatModel = new ViewModelProvider(this).get(ChatRoomViewModel.class);
 
 
         messages = chatModel.messages.getValue();
@@ -55,14 +56,14 @@ public class ChatRoom extends AppCompatActivity {
             @Override
             public MyRowHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
-               // if(viewType==0){
+                if(viewType==0){
                     SentMessageBinding binding = SentMessageBinding.inflate(getLayoutInflater());
                     return new MyRowHolder(binding.getRoot());
-              //  }else {
-                  //  ReceivedMessageBinding binding = ReceivedMessageBinding.inflate(getLayoutInflater());
-                   // return new MyRowHolder(binding.getRoot());
+                }else {
+                    ReceivedMessageBinding binding = ReceivedMessageBinding.inflate(getLayoutInflater());
+                    return new MyRowHolder(binding.getRoot());
 
-               // }
+                }
 
             }
 
@@ -107,20 +108,18 @@ public class ChatRoom extends AppCompatActivity {
             binding.editTextText.setText("");
             Log.d("Hi","Test");
         });
-//        binding.button3.setOnClickListener(click -> {
-//
-//            SimpleDateFormat sdf = new SimpleDateFormat("EEEE, dd-MMM-yyyy hh-mm-ss a");
-//            String currentDateandTime = sdf.format(new Date());
-//
-//            messages.add(new ChatMessage(binding.editTextText.getText().toString(),currentDateandTime,false));
-//
-//            myAdapter.notifyItemInserted(messages.size()-1);
-//            binding.editTextText.setText("");
-//        });
+        binding.button3.setOnClickListener(click -> {
 
-        binding.test.setOnClickListener(e -> {
-            Toast.makeText(this, "Testing", Toast.LENGTH_SHORT).show();
+            SimpleDateFormat sdf = new SimpleDateFormat("EEEE, dd-MMM-yyyy hh-mm-ss a");
+            String currentDateandTime = sdf.format(new Date());
+
+            messages.add(new ChatMessage(binding.editTextText.getText().toString(),currentDateandTime,false));
+
+            myAdapter.notifyItemInserted(messages.size()-1);
+            binding.editTextText.setText("");
         });
+
+
     }
 
     class MyRowHolder extends RecyclerView.ViewHolder{
