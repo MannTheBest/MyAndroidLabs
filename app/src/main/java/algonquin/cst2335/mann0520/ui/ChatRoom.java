@@ -1,10 +1,12 @@
 package algonquin.cst2335.mann0520.ui;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.room.Room;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -16,10 +18,14 @@ import android.widget.Toast;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 import algonquin.cst2335.mann0520.R;
+import algonquin.cst2335.mann0520.data.ChatMassageDAO;
 import algonquin.cst2335.mann0520.data.ChatMessage;
 import algonquin.cst2335.mann0520.data.ChatRoomViewModel;
+import algonquin.cst2335.mann0520.data.MessageDatabase;
 import algonquin.cst2335.mann0520.databinding.ActivityChatRoomBinding;
 import algonquin.cst2335.mann0520.databinding.ReceivedMessageBinding;
 import algonquin.cst2335.mann0520.databinding.SentMessageBinding;
@@ -31,6 +37,7 @@ public class ChatRoom extends AppCompatActivity {
     ArrayList<ChatMessage> messages = new ArrayList<>();
     ChatRoomViewModel chatModel;
 
+    ChatMassageDAO mDAO;
     RecyclerView.Adapter<MyRowHolder> myAdapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,10 +51,18 @@ public class ChatRoom extends AppCompatActivity {
         chatModel = new ViewModelProvider(this).get(ChatRoomViewModel.class);
 
 
+        MessageDatabase db = Room.databaseBuilder(getApplicationContext(), MessageDatabase.class, "MessageDatabase").build();
+        mDAO = db.cmDAO();
         messages = chatModel.messages.getValue();
         if(messages == null)
         {
             chatModel.messages.postValue( messages = new ArrayList<ChatMessage>());
+
+            Executor thread = Executors.newSingleThreadExecutor();
+            thread.execute(()->{
+                messages.addAll(mDAO.getAllMessages());
+                runOnUiThread(() -> binding.recycleView.setAdapter(myAdapter));
+            });
         }
 
         binding.recycleView.setLayoutManager(new LinearLayoutManager(this));
@@ -130,9 +145,28 @@ public class ChatRoom extends AppCompatActivity {
 
         public MyRowHolder(@NonNull View itemView){
             super(itemView);
+            AlertDialog.Builder builder = new AlertDialog.Builder( ChatRoom.this );
 
             messagetext = itemView.findViewById(R.id.message);
             timeText =  itemView.findViewById(R.id.time);
+            itemView.setOnClickListener( v -> {
+                int position = getAbsoluteAdapterPosition();
+                ChatMessage m = messages.get(position);
+
+                builder.setMessage("Do you want to delete the message:" + messagetext.getText());
+                builder.setTitle("Question:");
+                builder.setNegativeButton("NO", (dialog, cl)->{});
+                builder.setPositiveButton( "Yes", (dialog, cl)->{
+                    Executor thread = Executors.newSingleThreadExecutor();
+                    thread.execute(() ->
+                    {
+                        mDAO.deleteMessage(m);});
+
+                    messages. remove(position);
+                    myAdapter.notifyItemRemoved(position);
+                });
+                builder.create().show();
+            });
 
 
         }
